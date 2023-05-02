@@ -4,6 +4,7 @@ import { Prompt } from 'react-router-dom';
 import Card from '../UI/Card';
 import LoadingSpinner from '../UI/LoadingSpinner';
 import classes from './QuoteForm.module.css';
+import { toast } from 'react-toastify';
 
 const QuoteForm = (props) => {
   const [isEntering, setIsEntering] = useState(false);
@@ -17,7 +18,11 @@ const QuoteForm = (props) => {
     const enteredAuthor = authorInputRef.current.value;
     const enteredText = textInputRef.current.value;
 
-    // optional: Could validate here
+    // validate here
+
+    if(!enteredAuthor || !enteredText){
+      return toast.error("Check Input fields!!!")
+    }
 
     props.onAddQuote({ author: enteredAuthor, text: enteredText });
   }

@@ -1,12 +1,14 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 import useHttp from '../../hooks/use-http';
 import { addComment } from '../../lib/api';
 import LoadingSpinner from '../UI/LoadingSpinner';
 import classes from './NewCommentForm.module.css';
+import { toast } from 'react-toastify';
 
 const NewCommentForm = (props) => {
-  const commentTextRef = useRef();
+
+  const [commentText,setCommentText] = useState('');
 
   const { sendRequest, status, error } = useHttp(addComment);
 
@@ -21,11 +23,18 @@ const NewCommentForm = (props) => {
   const submitFormHandler = (event) => {
     event.preventDefault();
 
-    const enteredText = commentTextRef.current.value;
+    const enteredText = commentText;
 
-    // optional: Could validate here
+    //Could validate here
+
+    if(!commentText){
+      return toast.error('Input Empty!')
+    }
 
     sendRequest({ commentData: { text: enteredText }, quoteId: props.quoteId });
+
+    setCommentText('')
+
   };
 
   return (
@@ -37,7 +46,7 @@ const NewCommentForm = (props) => {
       )}
       <div className={classes.control} onSubmit={submitFormHandler}>
         <label htmlFor='comment'>Your Comment</label>
-        <textarea id='comment' rows='5' ref={commentTextRef}></textarea>
+        <textarea id='comment' rows='5' value={commentText} onChange={e=>setCommentText(e.target.value)} ></textarea>
       </div>
       <div className={classes.actions}>
         <button className='btn'>Add Comment</button>

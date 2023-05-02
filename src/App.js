@@ -1,4 +1,9 @@
+import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 import AllQuotes from './pages/AllQuotes';
 import QuoteDetail from './pages/QuoteDetail';
@@ -9,6 +14,7 @@ import Layout from './components/layout/Layout';
 function App() {
   return (
     <Layout>
+      <ToastContainer />
       <Switch>
         <Route path='/' exact>
           <Redirect to='/quotes' />
